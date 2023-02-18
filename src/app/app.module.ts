@@ -6,10 +6,15 @@ import {AngularFireModule} from "@angular/fire/compat";
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { StartComponent } from './components/start/start.component';
+import { FirebaseService } from "./services/firebase.service";
+import { FinishComponent } from './components/finish/finish.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    StartComponent,
+    FinishComponent
   ],
   imports: [
     BrowserModule,
@@ -18,6 +23,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore())
   ],
+  providers: [FirebaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

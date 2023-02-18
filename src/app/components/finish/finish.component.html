@@ -1,0 +1,10 @@
+<div *ngIf="guests?.length > 0; else noGuests">
+    <ul *ngFor="let guest of guests">
+        <li><strong>{{ guest.name }}: </strong> {{ guest.amount }}</li>
+    </ul>
+</div>
+
+<ng-template  #noGuests>
+    <hr>
+    <h5> There are no guests in the list</h5>
+</ng-template>

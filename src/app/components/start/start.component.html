@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<body>
+<div id="main-content" class="container" align="center">
+
+    <div class="wrapper">
+        <div class="form-group">
+            <h1 id="total_amount" style="color: #305468">500 ZL</h1>
+        </div>
+        <form>
+            <div class="group">
+                <input type="text" id="name"/><span class="highlight"></span><span class="bar"></span>
+                <label for="name">Name</label>
+            </div>
+            <div class="group">
+                <input type="number" step=".01" id="sum"/><span class="highlight"></span><span class="bar"></span>
+                <label for="sum">Amount</label>
+            </div>
+            <button id="send" class="btn btn-default" type="submit">Pay</button>
+        </form>
+        <div class="col-md-12">
+            <h2 style="color: #305468">Left to pay: </h2>
+            <h2 style="color: #305468" id="leftToPay"></h2>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th style="color: #305468">History</th>
+                    </tr>
+                    </thead>
+                    <tbody style="color: #305468" id="history">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
