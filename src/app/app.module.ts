@@ -9,6 +9,8 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { StartComponent } from './components/start/start.component';
 import { FirebaseService } from "./services/firebase.service";
 import { FinishComponent } from './components/finish/finish.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -18,10 +20,12 @@ import { FinishComponent } from './components/finish/finish.component';
   ],
   imports: [
     BrowserModule,
+    MatProgressSpinnerModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+    BrowserAnimationsModule
   ],
   providers: [FirebaseService],
   bootstrap: [AppComponent]

@@ -4,9 +4,9 @@
 <body>
 <div id="main-content" class="container" align="center">
 
-    <div class="wrapper">
+    <div class="wrapper" *ngIf="amount.amount != null else loadingAmount">
         <div class="form-group">
-            <h1 id="total_amount" style="color: #305468">500 ZL</h1>
+            <h1 id="total_amount" style="color: #305468">{{ amount.amount }} {{ amount.currencyName}}</h1>
         </div>
         <form>
             <div class="group">
@@ -38,6 +38,9 @@
             </div>
         </div>
     </div>
+    <ng-template #loadingAmount>
+        <mat-spinner></mat-spinner>
+    </ng-template>
 </div>
 </body>
 </html>
