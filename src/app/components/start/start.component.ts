@@ -10,11 +10,12 @@ import {Amount} from "../../models/Amount";
 export class StartComponent {
 
     amount: Amount
-
+    paymentroom: string
     constructor(private firebaseService: FirebaseService) { }
 
     ngOnInit() {
-        this.firebaseService.getAmount().subscribe(amount => {
+        this.paymentroom = new URLSearchParams(window.location.search).get('paymentroom');
+        this.firebaseService.getAmount(this.paymentroom).subscribe(amount => {
             console.log(amount)
             this.amount = amount
         })
