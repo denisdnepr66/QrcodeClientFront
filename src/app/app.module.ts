@@ -11,7 +11,8 @@ import { FirebaseService } from "./services/firebase.service";
 import { FinishComponent } from './components/finish/finish.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {RouterModule, Routes} from "@angular/router";
+import { AppRoutingModule } from './app-routing.module';
+import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -19,16 +20,19 @@ import {RouterModule, Routes} from "@angular/router";
     StartComponent,
     FinishComponent
   ],
-  imports: [
-    BrowserModule,
-    MatProgressSpinnerModule,
-    AngularFirestoreModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore()),
-    BrowserAnimationsModule,
-    RouterModule.forRoot([])
-  ],
+    imports: [
+        BrowserModule,
+        MatProgressSpinnerModule,
+        AngularFirestoreModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideFirestore(() => getFirestore()),
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        RouterLink,
+        RouterLinkActive,
+        RouterOutlet
+    ],
   providers: [FirebaseService],
   bootstrap: [AppComponent]
 })

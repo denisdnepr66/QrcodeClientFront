@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {FirebaseService} from "../../services/firebase.service";
 import {Guest} from "../../models/Guest";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-finish',
@@ -10,12 +11,16 @@ import {Guest} from "../../models/Guest";
 export class FinishComponent {
 
     guests: Guest[];
+    paymentroom: string
 
-    constructor(private firebaseService: FirebaseService) {
-    }
+    constructor(
+        private firebaseService: FirebaseService,
+        private route: ActivatedRoute
+    ) { }
 
     ngOnInit() {
-        this.firebaseService.getGuests().subscribe(guests => {
+        this.paymentroom = this.route.snapshot.paramMap.get('paymentroom');
+        this.firebaseService.getGuests(this.paymentroom).subscribe(guests => {
             this.guests = guests
         })
     }

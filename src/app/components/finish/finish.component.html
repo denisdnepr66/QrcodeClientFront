@@ -1,3 +1,5 @@
+<h1> Successful payment </h1>
+
 <div *ngIf="guests?.length > 0; else noGuests">
     <ul *ngFor="let guest of guests">
         <li><strong>{{ guest.name }}: </strong> {{ guest.amount }}</li>

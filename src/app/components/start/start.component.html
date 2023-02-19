@@ -6,20 +6,19 @@
 
     <div class="wrapper" *ngIf="amount.amount != null else loadingAmount">
         <p></p>
-        <img style="width: 270px; " src="/assets/images/novelpay-logo.svg" alt="image">
         <div class="form-group">
             <h1 id="total_amount" style="color: #305468">{{ amount.amount }} {{ amount.currencyName}}</h1>
         </div>
         <form>
             <div class="group">
-                <input type="text" id="name"/><span class="highlight"></span><span class="bar"></span>
-                <label for="name">Name</label>
+                <input type="text" id="guestName"/><span class="highlight"></span><span class="bar"></span>
+                <label for="guestName">Name</label>
             </div>
             <div class="group">
-                <input type="number" step=".01" id="sum"/><span class="highlight"></span><span class="bar"></span>
-                <label for="sum">Amount</label>
+                <input type="number" step=".01" id="guestAmount"/><span class="highlight"></span><span class="bar"></span>
+                <label for="guestAmount">Amount</label>
             </div>
-            <button id="send" class="btn btn-default" type="submit">Pay</button>
+            <button id="send" class="btn btn-default" type="submit" (click)="onPay()"> Pay</button>
         </form>
         <div class="col-md-12">
             <h2 style="color: #305468">Left to pay: </h2>

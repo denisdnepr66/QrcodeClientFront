@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from "@angular/fire/compat/firestore";
 import {Observable} from "rxjs";
 import {Guest} from "../models/Guest";
+import {setDoc} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,7 @@ export class FirebaseService {
     // amount: Observable<Amount>
     guests: Observable<Guest[]>
 
-    constructor(public afs: AngularFirestore) {
-        this.guests = this.afs
-            .collection('paymentrooms')
-            .doc('0f75a7af-7b4d-4ee7-81dd-f95ba1bf461a') // todo change to id from link path
-            .collection('guests')
-            .valueChanges()
-    }
+    constructor(public afs: AngularFirestore) { }
 
     getAmount(paymentroom: string) {
           return this.afs
@@ -25,7 +20,22 @@ export class FirebaseService {
               .valueChanges();
     }
 
-    getGuests() {
-        return this.guests;
+    getGuests(paymentroom: string) {
+        return this.afs
+            .collection('paymentrooms')
+            .doc(paymentroom)
+            .collection('guests')
+            .valueChanges()
+    }
+
+    saveGuest(paymentroom: string, guestName: string, guestAmount: string) {
+        this.afs
+            .collection('paymentrooms')
+            .doc(paymentroom)
+            .collection('guests')
+            .add({
+                name: guestName,
+                amount: guestAmount
+            })
     }
 }
