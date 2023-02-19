@@ -4,40 +4,30 @@
 <body>
 <div id="main-content" class="container" align="center">
 
-    <div class="wrapper" *ngIf="amount.amount != null else loadingAmount">
+    <div class="wrapper" >
         <p></p>
         <div class="form-group">
-            <h1 id="total_amount" style="color: #305468">{{ amount.amount }} {{ amount.currencyName}}</h1>
+            <h1 id="total_amount" style="color: #305468">{{ amount.amount }} {{ amount.currencyName }}</h1>
         </div>
-        <form>
-            <div class="group">
-                <input type="text" id="guestName"/><span class="highlight"></span><span class="bar"></span>
-                <label for="guestName">Name</label>
-            </div>
-            <div class="group">
-                <input type="number" step=".01" id="guestAmount"/><span class="highlight"></span><span class="bar"></span>
-                <label for="guestAmount">Amount</label>
-            </div>
-            <button id="send" class="btn btn-default" type="submit" (click)="onPay()"> Pay</button>
+        <form [formGroup]="formGroup">
+            <mat-form-field style="width: 100%;">
+                <input matInput placeholder="Name" formControlName="nameForm">
+                <mat-hint align="start">Please enter your name</mat-hint>
+                <mat-error *ngIf="nameForm.invalid && nameForm.touched">
+                    Name cannot be empty
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field style="width: 100%;">
+                <input type="number" step=".01" matInput placeholder="Amount" formControlName="amountForm">
+                <mat-hint align="start">Please enter amount (example: 21.00, 34.98)</mat-hint>
+                <mat-error *ngIf="amountForm.invalid && amountForm.touched">
+                    Wrong amount or exceeded maximum amount
+                </mat-error>
+            </mat-form-field>
         </form>
-        <div class="col-md-12">
-            <h2 style="color: #305468">Left to pay: </h2>
-            <h2 style="color: #305468" id="leftToPay"></h2>
-        </div>
+        <button id="send" class="btn btn-default" type="submit" [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay()"> Pay</button>
 
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th style="color: #305468">History</th>
-                    </tr>
-                    </thead>
-                    <tbody style="color: #305468" id="history">
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
     <ng-template #loadingAmount>
         <mat-spinner></mat-spinner>

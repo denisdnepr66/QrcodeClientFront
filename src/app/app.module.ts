@@ -13,6 +13,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { AppRoutingModule } from './app-routing.module';
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
+import {MatInputModule} from "@angular/material/input";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
         AppRoutingModule,
         RouterLink,
         RouterLinkActive,
-        RouterOutlet
+        RouterOutlet,
+        MatInputModule,
+        MatButtonModule,
+        ReactiveFormsModule
     ],
   providers: [FirebaseService],
   bootstrap: [AppComponent]
