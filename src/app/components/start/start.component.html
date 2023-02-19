@@ -5,6 +5,8 @@
 <div id="main-content" class="container" align="center">
 
     <div class="wrapper" *ngIf="amount.amount != null else loadingAmount">
+        <p></p>
+        <img style="width: 270px; " src="/assets/images/novelpay-logo.svg" alt="image">
         <div class="form-group">
             <h1 id="total_amount" style="color: #305468">{{ amount.amount }} {{ amount.currencyName}}</h1>
         </div>
