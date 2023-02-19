@@ -28,14 +28,15 @@ export class FirebaseService {
             .valueChanges()
     }
 
-    saveGuest(paymentroom: string, guestName: string, guestAmount: string) {
+    saveGuest(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string) {
         this.afs
             .collection('paymentrooms')
             .doc(paymentroom)
             .collection('guests')
             .add({
                 name: guestName,
-                amount: guestAmount
+                amount: guestAmount,
+                currency: guestCurrency
             })
     }
 }

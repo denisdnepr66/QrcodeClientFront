@@ -16,7 +16,7 @@
     <ul *ngFor="let guest of guests">
         <li>
             <p style="display:inline-block">{{ guest.name }}</p>
-            <p style="display:inline-block; float: right; margin-right: 30px">{{ guest.amount }}</p>
+            <p style="display:inline-block; float: right; margin-right: 30px">{{ guest.amount }} {{ guest.currency }}</p>
         </li>
         <hr>
     </ul>
