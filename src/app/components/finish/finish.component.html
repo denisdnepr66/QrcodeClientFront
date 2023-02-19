@@ -1,8 +1,24 @@
-<h1> Successful payment </h1>
+<br>
+<br>
+<div class="success-checkmark">
+    <div class="check-icon">
+        <span class="icon-line line-tip"></span>
+        <span class="icon-line line-long"></span>
+        <div class="icon-circle"></div>
+        <div class="icon-fix"></div>
+    </div>
+</div>
+<h2 style="color: #305468; text-align: center;"> Payment Accepted </h2>
+
+<p style="text-align: center;">History:</p>
 
 <div *ngIf="guests?.length > 0; else noGuests">
     <ul *ngFor="let guest of guests">
-        <li><strong>{{ guest.name }}: </strong> {{ guest.amount }}</li>
+        <li>
+            <p style="display:inline-block">{{ guest.name }}:</p>
+            <p style="display:inline-block; float: right; margin-right: 30px">{{ guest.amount }}</p>
+        </li>
+        <hr>
     </ul>
 </div>
 
