@@ -50,7 +50,7 @@ export class StartComponent implements OnInit {
         let guestCurrency = this.amount.currencyName.toString()
 
         this.firebaseService.saveGuest(this.paymentroom, guestName, guestAmount, guestCurrency)
-        let newLeftToPayAmount = parseFloat(this.amount.amount) - this.formGroup.get('amountForm').value
+        let newLeftToPayAmount = parseFloat(this.amount.leftToPay) - this.formGroup.get('amountForm').value
 
         this.firebaseService.updateLeftToPayAmount(this.paymentroom, newLeftToPayAmount.toString())
         this.router.navigateByUrl('/finish/' + this.paymentroom)
