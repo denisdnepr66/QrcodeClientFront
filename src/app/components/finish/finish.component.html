@@ -8,7 +8,9 @@
         <div class="icon-fix"></div>
     </div>
 </div>
-<h2 style="color: #305468; text-align: center;"> Payment Accepted </h2>
+<h3 style="color: #305468; text-align: center;"> Payment Accepted </h3>
+<br>
+<br>
 
 <div style="text-align: center;" class="row">
     <div class="column">
@@ -26,8 +28,7 @@
 </div>
 
 <br>
-<p style="text-align: center;">Left to pay: {{amount.leftToPay}} {{amount.currencyName}}</p>
-<p style="text-align: center;">History:</p>
+<h4 style="text-align: left; margin-left: 40px; color: #305468">History:</h4>
 
 <div *ngIf="guests?.length > 0; else noGuests">
     <ul *ngFor="let guest of guests">
