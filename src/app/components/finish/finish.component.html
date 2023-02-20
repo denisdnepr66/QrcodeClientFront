@@ -9,7 +9,8 @@
     </div>
 </div>
 <h2 style="color: #305468; text-align: center;"> Payment Accepted </h2>
-
+<br>
+<p style="text-align: center;">Left to pay: {{amount.leftToPay}} {{amount.currencyName}}</p>
 <p style="text-align: center;">History:</p>
 
 <div *ngIf="guests?.length > 0; else noGuests">

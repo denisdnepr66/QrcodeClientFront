@@ -39,4 +39,13 @@ export class FirebaseService {
                 currency: guestCurrency
             })
     }
+
+    updateLeftToPayAmount(paymentroom: string, newLeftToPayAmount: string) {
+        this.afs
+            .collection('paymentrooms')
+            .doc(paymentroom)
+            .update({
+                leftToPay: newLeftToPayAmount
+            })
+    }
 }

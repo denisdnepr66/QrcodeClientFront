@@ -3,4 +3,5 @@ export class Amount {
     currencyName?:string;
     currencyCode?:string;
     exponent?:string;
+    leftToPay?:string;
 }
