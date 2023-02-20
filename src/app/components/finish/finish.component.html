@@ -9,6 +9,22 @@
     </div>
 </div>
 <h2 style="color: #305468; text-align: center;"> Payment Accepted </h2>
+
+<div style="text-align: center;" class="row">
+    <div class="column">
+        <div class="pie animate" style="--p:100;--c:#305468">{{amount.amount}} {{amount.currencyName}}</div>
+        <p style="text-align: center;">Total amount</p>
+    </div>
+    <div class="column">
+        <div class="pie animate" style="--p:{{ leftToPayRatio }};--c:#305468">{{amount.leftToPay}} {{amount.currencyName}}</div>
+        <p style="text-align: center;">Left to pay</p>
+    </div>
+    <div class="column">
+        <div class="pie animate" style="--p:{{ youPaidRation }};--c:#305468">{{youPaidAmount}} {{amount.currencyName}}</div>
+        <p style="text-align: center;">You Paid</p>
+    </div>
+</div>
+
 <br>
 <p style="text-align: center;">Left to pay: {{amount.leftToPay}} {{amount.currencyName}}</p>
 <p style="text-align: center;">History:</p>

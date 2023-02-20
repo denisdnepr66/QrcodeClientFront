@@ -53,7 +53,7 @@ export class StartComponent implements OnInit {
         let newLeftToPayAmount = parseFloat(this.amount.leftToPay) - this.formGroup.get('amountForm').value
 
         this.firebaseService.updateLeftToPayAmount(this.paymentroom, newLeftToPayAmount.toString())
-        this.router.navigateByUrl('/finish/' + this.paymentroom)
+        this.router.navigateByUrl('/finish/' + this.paymentroom + '/' + guestAmount)
     }
 
     get nameForm() {

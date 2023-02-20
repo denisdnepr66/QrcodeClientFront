@@ -15,6 +15,10 @@ export class FinishComponent {
     paymentroom: string
     amount: Amount
 
+    leftToPayRatio: number
+    youPaidAmount: string
+    youPaidRation: number
+
     constructor(
         private firebaseService: FirebaseService,
         private route: ActivatedRoute
@@ -22,11 +26,15 @@ export class FinishComponent {
 
     ngOnInit() {
         this.paymentroom = this.route.snapshot.paramMap.get('paymentroom');
+        this.youPaidAmount = this.route.snapshot.paramMap.get('youPaid')
         this.firebaseService.getGuests(this.paymentroom).subscribe(guests => {
             this.guests = guests
         })
         this.firebaseService.getAmount(this.paymentroom).subscribe(amount => {
             this.amount = amount
+            this.leftToPayRatio = parseFloat(this.amount.leftToPay) / parseFloat(this.amount.amount) * 100
+            this.youPaidRation = parseFloat(this.youPaidAmount) / parseFloat(this.amount.amount) * 100
         })
+
     }
 }

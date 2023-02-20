@@ -7,7 +7,7 @@ import {FinishComponent} from "./components/finish/finish.component";
 
 export const routes: Routes = [
     { path: 'start/:paymentroom', component: StartComponent },
-    { path: 'finish/:paymentroom', component: FinishComponent },
+    { path: 'finish/:paymentroom/:youPaid', component: FinishComponent },
 ];
 @NgModule({
   declarations: [],
