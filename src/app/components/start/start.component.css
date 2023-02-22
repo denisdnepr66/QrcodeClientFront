@@ -104,20 +104,18 @@ label {
 }
 
 .btn {
-    background: #305468;
+    background: white;
     color: white;
     border: none;
-    padding: 10px 20px;
     border-radius: 3px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     text-decoration: none;
     outline: none;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .btn:hover {
-    color: #8b8b8b;
+    color: #305468;
     box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
 }
 .btn.btn-link {
@@ -148,3 +146,16 @@ label {
     text-align: center;
     margin: 50px 0;
 }
+
+.column {
+    float: left;
+    width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
