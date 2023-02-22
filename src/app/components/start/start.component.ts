@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import { FirebaseService } from "../../services/firebase.service";
+import {FirebaseService} from "../../services/firebase.service";
 import {Amount} from "../../models/Amount";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-declare var require: any
 
 @Component({
   selector: 'app-start',
@@ -16,6 +15,13 @@ export class StartComponent implements OnInit {
     paymentroom: string
 
     formGroup: FormGroup;
+    tenPercentTip: string = "0.00"
+    fifteenPercentTip: string = "0.00"
+    twentyPercentTip: string = "0.00"
+
+    chosenTipAmount: string = "0.00"
+
+    totalAmountWithTip: string = "0.00"
 
     constructor(
         private firebaseService: FirebaseService,
@@ -26,10 +32,13 @@ export class StartComponent implements OnInit {
 
     ngOnInit() {
 
+        this.setTipEventListeners()
+
         this.paymentroom = this.route.snapshot.paramMap.get('paymentroom');
         this.firebaseService.getAmount(this.paymentroom).subscribe(amount => {
             console.log(amount)
             this.amount = amount
+            let maxAmount = parseFloat(this.amount.leftToPay) + 0.01
 
             this.formGroup = this.fb.group({
                 nameForm: ['', [
@@ -38,10 +47,28 @@ export class StartComponent implements OnInit {
                 amountForm: ['', [
                     Validators.required,
                     Validators.pattern('^\\s*(?=.*[1-9])\\d*(?:\\.\\d{1,2})?\\s*$'),
-                    Validators.max(parseFloat(this.amount.leftToPay))
+                    Validators.max(parseFloat(maxAmount.toString()))
                 ]]
             })
         })
+    }
+
+    private setTipEventListeners() {
+        const tenPercentTip = document.getElementById('tenPercentTip');
+        tenPercentTip.addEventListener('focusout', (event) => {
+            console.log("BLYAT")
+            this.totalAmountWithTip = this.formGroup.get('amountForm').value.toFixed(2).toString()
+        });
+
+        const fifteenPercentTip = document.getElementById('fifteenPercentTip');
+        fifteenPercentTip.addEventListener('focusout', (event) => {
+            this.totalAmountWithTip = this.formGroup.get('amountForm').value.toFixed(2).toString()
+        });
+
+        const twentyPercentTip = document.getElementById('twentyPercentTip');
+        twentyPercentTip.addEventListener('focusout', (event) => {
+            this.totalAmountWithTip = this.formGroup.get('amountForm').value.toFixed(2).toString()
+        });
 
     }
 
@@ -68,14 +95,16 @@ export class StartComponent implements OnInit {
         let leftToPay = +this.amount.leftToPay * 100
         let formattedamount = +guestAmount * 100
 
-        let newLeftToPayAmount = (leftToPay - formattedamount) / 100
+        let newLeftToPayAmount = ((leftToPay - formattedamount) / 100).toFixed(2)
+        let newTipAmount = (parseFloat(this.amount.totalTip) + parseFloat(this.chosenTipAmount)).toFixed(2)
 
 
         let guestCurrency = this.amount.currencyName.toString()
+        let guestTip = this.chosenTipAmount
 
-        this.firebaseService.saveGuest(this.paymentroom, guestName, guestAmount, guestCurrency)
+        this.firebaseService.saveGuest(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip)
 
-        this.firebaseService.updateLeftToPayAmount(this.paymentroom, newLeftToPayAmount.toString())
+        this.firebaseService.updateLeftToPayAndTotalTip(this.paymentroom, newLeftToPayAmount.toString(), newTipAmount.toString())
         this.router.navigateByUrl('/finish/' + this.paymentroom + '/' + guestAmount)
     }
 
@@ -84,6 +113,32 @@ export class StartComponent implements OnInit {
     }
 
     get amountForm() {
+
+        if (this.formGroup.get('amountForm').value == "" || this.formGroup.get('amountForm').value == null) {
+            this.tenPercentTip = "0.00"
+            this.fifteenPercentTip = "0.00"
+            this.twentyPercentTip = "0.00"
+            this.chosenTipAmount = "0.00"
+            this.totalAmountWithTip = "0.00"
+        } else {
+            this.tenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 10).toFixed(2).toString()
+            this.fifteenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 6.6666).toFixed(2).toString()
+            this.twentyPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 5).toFixed(2).toString()
+            if (document.activeElement.id == "tenPercentTip" ||
+                document.activeElement.id == "fifteenPercentTip" ||
+                document.activeElement.id == "twentyPercentTip") {
+                this.totalAmountWithTip = (parseFloat(this.formGroup.get('amountForm').value) + parseFloat(this.chosenTipAmount))
+                    .toFixed(2).toString()
+            } else {
+                this.totalAmountWithTip = parseFloat(this.formGroup.get('amountForm').value).toFixed(2).toString()
+            }
+
+        }
+
         return this.formGroup.get('amountForm')
+    }
+
+    setAmountWithTip(amount: string) {
+        this.chosenTipAmount = amount
     }
 }

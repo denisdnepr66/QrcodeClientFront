@@ -28,7 +28,7 @@ export class FirebaseService {
             .valueChanges()
     }
 
-    saveGuest(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string) {
+    saveGuest(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string, guestTip: string) {
         this.afs
             .collection('paymentrooms')
             .doc(paymentroom)
@@ -36,16 +36,18 @@ export class FirebaseService {
             .add({
                 name: guestName,
                 amount: guestAmount,
-                currency: guestCurrency
+                currency: guestCurrency,
+                guestTip: guestTip
             })
     }
 
-    updateLeftToPayAmount(paymentroom: string, newLeftToPayAmount: string) {
+    updateLeftToPayAndTotalTip(paymentroom: string, newLeftToPayAmount: string, newTipAmount: string) {
         this.afs
             .collection('paymentrooms')
             .doc(paymentroom)
             .update({
-                leftToPay: newLeftToPayAmount
+                leftToPay: newLeftToPayAmount,
+                totalTip: newTipAmount
             })
     }
 }

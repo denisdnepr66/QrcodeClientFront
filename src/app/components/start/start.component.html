@@ -27,6 +27,20 @@
             </mat-form-field>
         </form>
 
+<!--        TODO add tips here-->
+        <div id="tip">
+            <h4>Tip:</h4>
+            <button id="tenPercentTip" class='focus' type="submit" (focus)="setAmountWithTip(tenPercentTip)">{{ tenPercentTip }} {{ amount.currencyName }}</button>
+            <button id="fifteenPercentTip" class='focus' type="submit" (focus)="setAmountWithTip(fifteenPercentTip)">{{ fifteenPercentTip }} {{ amount.currencyName }}</button>
+            <button id="twentyPercentTip" class='focus' type="submit" (focus)="setAmountWithTip(twentyPercentTip)">{{ twentyPercentTip }} {{ amount.currencyName }}</button>
+        </div>
+
+        <div id="youPay">
+            <h3>You pay: {{ totalAmountWithTip }} </h3>
+        </div>
+
+        <br>
+
         <div style="text-align: center;" class="row">
             <div class="column">
                 <button id="blik" type="submit" class="btn-image btn" [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay()">

@@ -4,4 +4,5 @@ export class Amount {
     currencyCode?:string;
     exponent?:string;
     leftToPay?:string;
+    totalTip?:string;
 }
