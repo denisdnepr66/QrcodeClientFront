@@ -122,7 +122,7 @@ export class StartComponent implements OnInit {
             this.totalAmountWithTip = "0.00"
         } else {
             this.tenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 10).toFixed(2).toString()
-            this.fifteenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 6.6666).toFixed(2).toString()
+            this.fifteenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) * 15 / 100).toFixed(2).toString()
             this.twentyPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 5).toFixed(2).toString()
             if (document.activeElement.id == "tenPercentTip" ||
                 document.activeElement.id == "fifteenPercentTip" ||
