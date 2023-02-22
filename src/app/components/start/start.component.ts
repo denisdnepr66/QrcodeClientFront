@@ -108,6 +108,28 @@ export class StartComponent implements OnInit {
         this.router.navigateByUrl('/finish/' + this.paymentroom + '/' + guestAmount)
     }
 
+    onPayOnTerminal() {
+        let guestAmount = this.formGroup.get('amountForm').value.toString()
+        for (let i = 0; i < guestAmount.length; i++) {
+            if (guestAmount.charAt(i) === '.') {
+                if (guestAmount.length - i === 3) {
+                    break
+                } else if (guestAmount.length - i === 2) {
+                    guestAmount = guestAmount + "0"
+                    break
+                }
+            } else {
+                if (i === guestAmount.length - 1) {
+                    guestAmount = guestAmount + ".00"
+                    break
+                }
+            }
+        }
+        let guestCurrency = this.amount.currencyName.toString()
+        let guestTip = this.chosenTipAmount
+        this.firebaseService.saveGuestToPayOnTerminal(this.paymentroom, guestAmount, guestCurrency, guestTip)
+    }
+
     get nameForm() {
         return this.formGroup.get('nameForm')
     }

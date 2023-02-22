@@ -3,4 +3,5 @@ export class Guest {
     name?:string;
     currency?:string;
     tipAmount?:string;
+    wantToPayByCard?:boolean;
 }

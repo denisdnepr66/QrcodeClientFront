@@ -37,7 +37,21 @@ export class FirebaseService {
                 name: guestName,
                 amount: guestAmount,
                 currency: guestCurrency,
-                guestTip: guestTip
+                guestTip: guestTip,
+                wantToPayByCard: false
+            })
+    }
+
+    saveGuestToPayOnTerminal(paymentroom: string, guestAmount: string, guestCurrency: string, guestTip: string) {
+        this.afs
+            .collection('paymentrooms')
+            .doc(paymentroom)
+            .collection('guests')
+            .add({
+                amount: guestAmount,
+                currency: guestCurrency,
+                guestTip: guestTip,
+                wantToPayByCard: true
             })
     }
 
