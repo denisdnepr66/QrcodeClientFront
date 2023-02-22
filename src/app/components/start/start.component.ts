@@ -109,7 +109,16 @@ export class StartComponent implements OnInit {
     }
 
     onPayOnTerminal() {
+        let guestName
+
+        if (this.formGroup.get('nameForm').value == "" || this.formGroup.get('nameForm').value == null) {
+            guestName = "Guest"
+        } else {
+            guestName = this.formGroup.get('nameForm').value.toString()
+        }
+
         let guestAmount = this.formGroup.get('amountForm').value.toString()
+
         for (let i = 0; i < guestAmount.length; i++) {
             if (guestAmount.charAt(i) === '.') {
                 if (guestAmount.length - i === 3) {
@@ -127,7 +136,7 @@ export class StartComponent implements OnInit {
         }
         let guestCurrency = this.amount.currencyName.toString()
         let guestTip = this.chosenTipAmount
-        this.firebaseService.saveGuestToPayOnTerminal(this.paymentroom, guestAmount, guestCurrency, guestTip)
+        this.firebaseService.saveGuestToPayOnTerminal(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip)
     }
 
     get nameForm() {
