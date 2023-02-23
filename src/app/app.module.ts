@@ -16,12 +16,14 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
+import { ProcessingComponent } from './components/processing/processing/processing.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StartComponent,
-    FinishComponent
+    FinishComponent,
+    ProcessingComponent
   ],
     imports: [
         BrowserModule,

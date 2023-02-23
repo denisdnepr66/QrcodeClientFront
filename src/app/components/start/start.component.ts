@@ -3,6 +3,7 @@ import {FirebaseService} from "../../services/firebase.service";
 import {Amount} from "../../models/Amount";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Guest} from "../../models/Guest";
 
 @Component({
   selector: 'app-start',
@@ -136,7 +137,7 @@ export class StartComponent implements OnInit {
         }
         let guestCurrency = this.amount.currencyName.toString()
         let guestTip = this.chosenTipAmount
-        this.firebaseService.saveGuestToPayOnTerminal(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip)
+        this.firebaseService.saveGuestToPayOnTerminalAndRedirect(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip)
     }
 
     get nameForm() {

@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {StartComponent} from "./components/start/start.component";
 import {FinishComponent} from "./components/finish/finish.component";
+import {ProcessingComponent} from "./components/processing/processing/processing.component";
 
 
 export const routes: Routes = [
     { path: 'start/:paymentroom', component: StartComponent },
     { path: 'finish/:paymentroom/:youPaid', component: FinishComponent },
+    { path: 'processing/:paymentroom/:guestId', component: ProcessingComponent }
 ];
 @NgModule({
   declarations: [],

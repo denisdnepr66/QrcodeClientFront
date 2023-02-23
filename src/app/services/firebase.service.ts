@@ -2,22 +2,32 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from "@angular/fire/compat/firestore";
 import {Observable} from "rxjs";
 import {Guest} from "../models/Guest";
-import {setDoc} from "@angular/fire/firestore";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
     // amount: Observable<Amount>
-    guests: Observable<Guest[]>
 
-    constructor(public afs: AngularFirestore) { }
+    constructor(
+        public afs: AngularFirestore,
+        private router: Router) { }
 
     getAmount(paymentroom: string) {
           return this.afs
               .collection('paymentrooms')
               .doc(paymentroom)
               .valueChanges();
+    }
+
+    getGuest(paymentroom: string, guestId: string) {
+        return this.afs
+            .collection('paymentrooms')
+            .doc(paymentroom)
+            .collection('guests')
+            .doc(guestId)
+            .valueChanges();
     }
 
     getGuests(paymentroom: string) {
@@ -42,7 +52,7 @@ export class FirebaseService {
             })
     }
 
-    saveGuestToPayOnTerminal(paymentroom: string, guestName:string, guestAmount: string, guestCurrency: string, guestTip: string) {
+    saveGuestToPayOnTerminalAndRedirect(paymentroom: string, guestName:string, guestAmount: string, guestCurrency: string, guestTip: string) {
         this.afs
             .collection('paymentrooms')
             .doc(paymentroom)
@@ -52,8 +62,13 @@ export class FirebaseService {
                 amount: guestAmount,
                 currency: guestCurrency,
                 guestTip: guestTip,
-                wantToPayByCard: true
+                wantToPayByCard: true,
+                isAccepted: false
             })
+            .then(docRef => {
+                    this.router.navigateByUrl('/processing/' + paymentroom + '/' + docRef.id)
+                }
+            )
     }
 
     updateLeftToPayAndTotalTip(paymentroom: string, newLeftToPayAmount: string, newTipAmount: string) {
