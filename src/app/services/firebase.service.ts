@@ -48,7 +48,8 @@ export class FirebaseService {
                 amount: guestAmount,
                 currency: guestCurrency,
                 guestTip: guestTip,
-                wantToPayByCard: false
+                wantToPayByCard: false,
+                isAccepted: true
             })
     }
 
