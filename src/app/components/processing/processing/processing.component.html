@@ -1,5 +1,5 @@
 
-<div *ngIf="guest.isAccepted; then paymentSuccessful else waitingForPayment"></div>
+<div *ngIf="guest.accepted; then paymentSuccessful else waitingForPayment"></div>
 
 <ng-template #waitingForPayment>
     <h4 style="width: 100%; height: 100%; text-align: center">Waiting for payment. Waiter confirming your request on terminal</h4>

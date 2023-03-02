@@ -2,8 +2,8 @@ export class Guest {
     amount?:string;
     name?:string;
     currency?:string;
-    tipAmount?:string;
+    guestTip?:string;
     wantToPayByCard?:boolean;
-    isAccepted?:boolean;
+    accepted?:boolean;
 
 }

@@ -49,7 +49,7 @@ export class FirebaseService {
                 currency: guestCurrency,
                 guestTip: guestTip,
                 wantToPayByCard: false,
-                isAccepted: true
+                accepted: true
             })
     }
 
@@ -64,7 +64,7 @@ export class FirebaseService {
                 currency: guestCurrency,
                 guestTip: guestTip,
                 wantToPayByCard: true,
-                isAccepted: false
+                accepted: false
             })
             .then(docRef => {
                     this.router.navigateByUrl('/processing/' + paymentroom + '/' + docRef.id)
