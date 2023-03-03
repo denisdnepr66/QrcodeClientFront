@@ -3,8 +3,6 @@ export class Guest {
     name?:string;
     currency?:string;
     guestTip?:string;
-    wantToPayByCard?:boolean;
     accepted?:boolean;
     paymentMethod?:string;
-
 }

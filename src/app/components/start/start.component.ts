@@ -109,7 +109,7 @@ export class StartComponent implements OnInit {
         this.router.navigateByUrl('/finish/' + this.paymentroom + '/' + guestAmount)
     }
 
-    onPayOnTerminal() {
+    onPayOnTerminal(paymentMethod: string) {
         let guestName
 
         if (this.formGroup.get('nameForm').value == "" || this.formGroup.get('nameForm').value == null) {
@@ -137,7 +137,7 @@ export class StartComponent implements OnInit {
         }
         let guestCurrency = this.amount.currencyName.toString()
         let guestTip = this.chosenTipAmount
-        this.firebaseService.saveGuestToPayOnTerminalAndRedirect(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip)
+        this.firebaseService.saveGuestToPayOnTerminalAndRedirect(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip, paymentMethod)
     }
 
     get nameForm() {

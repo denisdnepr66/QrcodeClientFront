@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from "@angular/fire/compat/firestore";
-import {Observable} from "rxjs";
-import {Guest} from "../models/Guest";
 import {Router} from "@angular/router";
 
 @Injectable({
@@ -48,13 +46,12 @@ export class FirebaseService {
                 amount: guestAmount,
                 currency: guestCurrency,
                 guestTip: guestTip,
-                wantToPayByCard: false,
                 accepted: true,
                 paymentMethod: paymentMethod
             })
     }
 
-    saveGuestToPayOnTerminalAndRedirect(paymentroom: string, guestName:string, guestAmount: string, guestCurrency: string, guestTip: string) {
+    saveGuestToPayOnTerminalAndRedirect(paymentroom: string, guestName:string, guestAmount: string, guestCurrency: string, guestTip: string, paymentMethod: string) {
         this.afs
             .collection('paymentrooms')
             .doc(paymentroom)
@@ -64,9 +61,8 @@ export class FirebaseService {
                 amount: guestAmount,
                 currency: guestCurrency,
                 guestTip: guestTip,
-                wantToPayByCard: true,
                 accepted: false,
-                paymentMethod: 'CARD_ON_TERMINAL'
+                paymentMethod: paymentMethod
             })
             .then(docRef => {
                     this.router.navigateByUrl('/processing/' + paymentroom + '/' + docRef.id)
