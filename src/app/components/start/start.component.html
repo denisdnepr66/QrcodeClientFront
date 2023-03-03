@@ -44,17 +44,17 @@
 
         <div style="text-align: center;" class="row">
             <div class="column">
-                <button id="blik" type="submit" class="btn-image btn btnBlik" [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay()">
+                <button id="blik" type="submit" class="btn-image btn btnBlik" [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay('BLIK')">
                     <img style="width: 100px; margin-left: auto; margin-right: auto; display: block;" src="/assets/images/blik_logo.svg" alt="image">
                 </button>
             </div>
             <div class="column">
-                <button id="googlepay" type="submit" class="btn-image btn" [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay()">
+                <button id="googlepay" type="submit" class="btn-image btn" [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay('GOOGLE_PAY')">
                     <img style="width: 100px; margin-left: auto; margin-right: auto; display: block;" src="/assets/images/google_pay_logo.svg" alt="image">
                 </button>
             </div>
             <div class="column">
-                <button id="applepay" type="submit" class="btn-image btn btnApple" [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay()">
+                <button id="applepay" type="submit" class="btn-image btn btnApple" [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay('APPLE_PAY')">
                     <img style="width: 100px; margin-left: auto; margin-right: auto; display: block;" src="/assets/images/apple_pay_logo.svg" alt="image">
                 </button>
             </div>

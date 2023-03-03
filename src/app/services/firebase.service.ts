@@ -38,7 +38,7 @@ export class FirebaseService {
             .valueChanges()
     }
 
-    saveGuest(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string, guestTip: string) {
+    saveGuest(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string, guestTip: string, paymentMethod: string) {
         this.afs
             .collection('paymentrooms')
             .doc(paymentroom)
@@ -49,7 +49,8 @@ export class FirebaseService {
                 currency: guestCurrency,
                 guestTip: guestTip,
                 wantToPayByCard: false,
-                accepted: true
+                accepted: true,
+                paymentMethod: paymentMethod
             })
     }
 
@@ -64,7 +65,8 @@ export class FirebaseService {
                 currency: guestCurrency,
                 guestTip: guestTip,
                 wantToPayByCard: true,
-                accepted: false
+                accepted: false,
+                paymentMethod: 'CARD_ON_TERMINAL'
             })
             .then(docRef => {
                     this.router.navigateByUrl('/processing/' + paymentroom + '/' + docRef.id)

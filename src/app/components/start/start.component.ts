@@ -73,7 +73,7 @@ export class StartComponent implements OnInit {
 
     }
 
-    onPay() {
+    onPay(paymentMethod: string) {
         let guestName = this.formGroup.get('nameForm').value.toString()
         let guestAmount = this.formGroup.get('amountForm').value.toString()
 
@@ -103,7 +103,7 @@ export class StartComponent implements OnInit {
         let guestCurrency = this.amount.currencyName.toString()
         let guestTip = this.chosenTipAmount
 
-        this.firebaseService.saveGuest(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip)
+        this.firebaseService.saveGuest(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip, paymentMethod)
 
         this.firebaseService.updateLeftToPayAndTotalTip(this.paymentroom, newLeftToPayAmount.toString(), newTipAmount.toString())
         this.router.navigateByUrl('/finish/' + this.paymentroom + '/' + guestAmount)

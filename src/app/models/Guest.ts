@@ -5,5 +5,6 @@ export class Guest {
     guestTip?:string;
     wantToPayByCard?:boolean;
     accepted?:boolean;
+    paymentMethod?:string;
 
 }
