@@ -135,23 +135,16 @@ input[type=password] {
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.btn-box {
-    text-align: center;
-    margin: 50px 0;
-}
-
 .column {
     float: left;
-    width: 33.33%;
+    width: 31%;
 }
 
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
+.payment-method-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
-
 
 .focus {
     background: #e3e3e3;
@@ -215,18 +208,6 @@ input[type=password] {
 
 :target {
     color: red;
-}
-
-.column {
-    float: left;
-    width: 33.33%;
-}
-
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
 }
 
 .text-divider {
