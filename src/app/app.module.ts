@@ -14,7 +14,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { AppRoutingModule } from './app-routing.module';
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {MatInputModule} from "@angular/material/input";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import { ProcessingComponent } from './components/processing/processing/processing.component';
 
@@ -39,7 +39,8 @@ import { ProcessingComponent } from './components/processing/processing/processi
         RouterOutlet,
         MatInputModule,
         MatButtonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormsModule
     ],
   providers: [FirebaseService],
   bootstrap: [AppComponent]

@@ -30,19 +30,30 @@
             </mat-form-field>
         </form>
 
-        <!--        TODO add tips here-->
-        <div id="tip">
-            <h4>Tip:</h4>
-            <button id="tenPercentTip" class='focus' type="submit"
-                    (focus)="setAmountWithTip(tenPercentTip)">{{ tenPercentTip }} {{ amount.currencyName }}</button>
-            <button id="fifteenPercentTip" class='focus' type="submit"
-                    (focus)="setAmountWithTip(fifteenPercentTip)">{{ fifteenPercentTip }} {{ amount.currencyName }}</button>
-            <button id="twentyPercentTip" class='focus' type="submit"
-                    (focus)="setAmountWithTip(twentyPercentTip)">{{ twentyPercentTip }} {{ amount.currencyName }}</button>
+        <h4>Tip:</h4>
+        <div class="radio-container">
+
+            <input type="radio" id="tenPercentTip" name="radios" value="tenPercentTip"
+                   [(ngModel)]="selectedOption"
+                   [disabled]="disableRadioButtons"
+                   (click)="setAmountWithTip(tenPercentTip)">
+            <label for="tenPercentTip">{{ tenPercentTip }} {{ amount.currencyName }}</label>
+
+            <input type="radio" id="fifteenPercentTip" name="radios" value="fifteenPercentTip"
+                   [(ngModel)]="selectedOption"
+                   [disabled]="disableRadioButtons"
+                   (click)="setAmountWithTip(fifteenPercentTip)">
+            <label for="fifteenPercentTip">{{ fifteenPercentTip }} {{ amount.currencyName }}</label>
+
+            <input type="radio" id="twentyPercentTip" name="radios" value="twentyPercentTip"
+                   [(ngModel)]="selectedOption"
+                   [disabled]="disableRadioButtons"
+                   (click)="setAmountWithTip(twentyPercentTip)">
+            <label for="twentyPercentTip">{{ twentyPercentTip }} {{ amount.currencyName }}</label>
         </div>
 
         <div id="youPay">
-            <h3>You pay: {{ totalAmountWithTip }} </h3>
+            <h3>You pay: {{ totalAmountWithTip }} {{ amount.currencyName }} </h3>
         </div>
 
         <br>
@@ -73,16 +84,15 @@
 
         <div class="text-divider">OR</div>
 
-        <button id="payOnTerminal" type="submit" class="btn2" [disabled]="amountForm.invalid" (click)="onPayOnTerminal('CARD_ON_TERMINAL')">
+        <button id="payOnTerminal" type="submit" class="btn2" [disabled]="amountForm.invalid"
+                (click)="onPayOnTerminal('CARD_ON_TERMINAL')">
             Pay by card on terminal
         </button>
-        <button id="payInCash" type="submit" class="btn2" [disabled]="amountForm.invalid" (click)="onPayOnTerminal('CASH')">
+        <button id="payInCash" type="submit" class="btn2" [disabled]="amountForm.invalid"
+                (click)="onPayOnTerminal('CASH')">
             Cash
         </button>
     </div>
-    <ng-template #loadingAmount>
-        <mat-spinner></mat-spinner>
-    </ng-template>
 </div>
 </body>
 </html>

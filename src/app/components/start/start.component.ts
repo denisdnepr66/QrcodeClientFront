@@ -57,7 +57,6 @@ export class StartComponent implements OnInit {
     private setTipEventListeners() {
         const tenPercentTip = document.getElementById('tenPercentTip');
         tenPercentTip.addEventListener('focusout', (event) => {
-            console.log("BLYAT")
             this.totalAmountWithTip = this.formGroup.get('amountForm').value.toFixed(2).toString()
         });
 
@@ -153,24 +152,38 @@ export class StartComponent implements OnInit {
             this.chosenTipAmount = "0.00"
             this.totalAmountWithTip = "0.00"
         } else {
+            // this.disableRadioButtons = false
             this.tenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 10).toFixed(2).toString()
             this.fifteenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) * 15 / 100).toFixed(2).toString()
             this.twentyPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 5).toFixed(2).toString()
-            if (document.activeElement.id == "tenPercentTip" ||
-                document.activeElement.id == "fifteenPercentTip" ||
-                document.activeElement.id == "twentyPercentTip") {
+
+            if (this.selectedOption == "undefined") {
+                this.totalAmountWithTip = parseFloat(this.formGroup.get('amountForm').value).toFixed(2).toString()
+            } else {
                 this.totalAmountWithTip = (parseFloat(this.formGroup.get('amountForm').value) + parseFloat(this.chosenTipAmount))
                     .toFixed(2).toString()
-            } else {
-                this.totalAmountWithTip = parseFloat(this.formGroup.get('amountForm').value).toFixed(2).toString()
             }
-
         }
 
         return this.formGroup.get('amountForm')
     }
 
     setAmountWithTip(amount: string) {
-        this.chosenTipAmount = amount
+        if (this.selectedOnce && this.chosenTipAmount == amount) {
+            this.selectedOption = null;
+            this.chosenTipAmount = "0.00"
+            this.selectedOnce = false;
+        } else {
+            this.chosenTipAmount = amount
+            this.selectedOnce = true;
+        }
     }
+
+    disableRadioButtons: boolean = false // todo implement. set to true by defalult and change to false when there is an amount provided
+
+    selectedOption: string;
+
+    selectedOnce = false;
+
+
 }
