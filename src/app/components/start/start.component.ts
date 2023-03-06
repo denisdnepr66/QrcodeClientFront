@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FirebaseService} from "../../services/firebase.service";
 import {Amount} from "../../models/Amount";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -23,6 +23,12 @@ export class StartComponent implements OnInit {
     chosenTipAmount: string = "0.00"
 
     totalAmountWithTip: string = "0.00"
+
+    paymentRequest: google.payments.api.PaymentDataRequest
+
+    userAgent: string = navigator.userAgent.toLowerCase();
+
+    isAndroid: boolean = this.userAgent.indexOf('android') > -1 && this.userAgent.indexOf('mobile') > -1;
 
     constructor(
         private firebaseService: FirebaseService,
@@ -52,6 +58,38 @@ export class StartComponent implements OnInit {
                 ]]
             })
         })
+
+        this.paymentRequest = {
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            allowedPaymentMethods: [
+                {
+                    type: 'CARD',
+                    parameters: {
+                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                        allowedCardNetworks: ['AMEX', 'DISCOVER', 'JCB', 'MASTERCARD', 'VISA']
+                    },
+                    tokenizationSpecification: {
+                        type: 'PAYMENT_GATEWAY',
+                        parameters: {
+                            gateway: 'example',
+                            gatewayMerchantId: 'exampleGatewayMerchantId'
+                        }
+                    }
+                }
+            ],
+            merchantInfo: {
+                merchantId: '12345678901234567890',
+                merchantName: 'Example Merchant'
+            },
+            transactionInfo: {
+                totalPriceStatus: 'FINAL',
+                totalPriceLabel: 'Total',
+                totalPrice: this.totalAmountWithTip,
+                currencyCode: 'PLN',
+                countryCode: 'PL'
+            }
+        };
     }
 
     private setTipEventListeners() {
@@ -152,7 +190,7 @@ export class StartComponent implements OnInit {
             this.chosenTipAmount = "0.00"
             this.totalAmountWithTip = "0.00"
         } else {
-            // this.disableRadioButtons = false
+            this.paymentRequest.transactionInfo.totalPrice = this.totalAmountWithTip;
             this.tenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 10).toFixed(2).toString()
             this.fifteenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) * 15 / 100).toFixed(2).toString()
             this.twentyPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 5).toFixed(2).toString()

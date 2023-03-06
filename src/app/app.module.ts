@@ -16,6 +16,7 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
+import { GooglePayButtonModule } from '@google-pay/button-angular';
 import { ProcessingComponent } from './components/processing/processing/processing.component';
 
 @NgModule({
@@ -39,6 +40,7 @@ import { ProcessingComponent } from './components/processing/processing/processi
         RouterOutlet,
         MatInputModule,
         MatButtonModule,
+        GooglePayButtonModule,
         ReactiveFormsModule,
         FormsModule
     ],

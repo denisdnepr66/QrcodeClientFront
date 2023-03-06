@@ -72,11 +72,12 @@ input[type=password] {
 }
 
 .btn {
-    background: #eaeaea;
+    /*background: #eaeaea;*/
+    background: white;
     color: white;
     border: none;
-    padding: 10px 10px;
-    border-radius: 10px;
+    /*padding: 10px 10px;*/
+    /*border-radius: 10px;*/
     letter-spacing: 0.06em;
     text-transform: uppercase;
     text-decoration: none;
@@ -86,11 +87,16 @@ input[type=password] {
 }
 
 .btn.btnApple {
-    padding: 13px 10px;
+    /*padding: 13px 10px;*/
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 8px;
 }
 
 .btn.btnBlik {
-    padding: 11px 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 5px;
 }
 .btn:hover {
     color: #305468;
@@ -135,15 +141,21 @@ input[type=password] {
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.column {
-    float: left;
-    width: 31%;
-}
-
 .payment-method-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.payment-method-container button {
+    margin: 8px;
+}
+
+.custom-google-pay-button {
+    height: 50px;
+    background-color: #ffffff;
 }
 
 .focus {
