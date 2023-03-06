@@ -18,13 +18,16 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import { GooglePayButtonModule } from '@google-pay/button-angular';
 import { ProcessingComponent } from './components/processing/processing/processing.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './components/confirmationdialog/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StartComponent,
     FinishComponent,
-    ProcessingComponent
+    ProcessingComponent,
+    ConfirmationDialogComponent
   ],
     imports: [
         BrowserModule,
@@ -42,7 +45,8 @@ import { ProcessingComponent } from './components/processing/processing/processi
         MatButtonModule,
         GooglePayButtonModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        MatDialogModule
     ],
   providers: [FirebaseService],
   bootstrap: [AppComponent]

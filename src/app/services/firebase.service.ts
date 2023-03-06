@@ -79,4 +79,19 @@ export class FirebaseService {
                 totalTip: newTipAmount
             })
     }
+
+    deleteGuest(paymentroom: string, documentId: string): void {
+        this.afs
+            .collection('paymentrooms')
+            .doc(paymentroom)
+            .collection('guests')
+            .doc(documentId)
+            .delete()
+            .then(() => {
+                console.log('Document successfully deleted!');
+            })
+            .catch((error) => {
+                console.error('Error deleting document: ', error);
+            });
+    }
 }

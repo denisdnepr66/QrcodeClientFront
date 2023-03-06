@@ -1,0 +1,48 @@
+.loader {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+    border-top-color: #305468;
+    animation: spin 1s ease-in-out infinite;
+}
+
+.container {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+h4 {
+    color: #305468;
+}
+
+.btn2 {
+    background: #FFCDD2;
+    width: 90%;
+    height: 50px;
+    margin-top: 30px;
+    color: #666;
+    border: none;
+    border-radius: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn2:hover {
+    background: #F44336;
+    color: white;
+}
