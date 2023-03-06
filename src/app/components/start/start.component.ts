@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FirebaseService} from "../../services/firebase.service";
 import {Amount} from "../../models/Amount";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -30,20 +30,21 @@ export class StartComponent implements OnInit {
 
     isAndroid: boolean = this.userAgent.indexOf('android') > -1 && this.userAgent.indexOf('mobile') > -1;
 
+    amountLoaded: boolean = false
+
+    numOfGuests:number
+
     constructor(
         private firebaseService: FirebaseService,
         private route: ActivatedRoute,
         private router: Router,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private cdRef: ChangeDetectorRef,
     ) { }
 
     ngOnInit() {
-
-        this.setTipEventListeners()
-
         this.paymentroom = this.route.snapshot.paramMap.get('paymentroom');
         this.firebaseService.getAmount(this.paymentroom).subscribe(amount => {
-            console.log(amount)
             this.amount = amount
             let maxAmount = parseFloat(this.amount.leftToPay) + 0.01
 
@@ -57,8 +58,14 @@ export class StartComponent implements OnInit {
                     Validators.max(parseFloat(maxAmount.toString()))
                 ]]
             })
+            this.setSplittedAmountIfNeeded()
+            this.amountLoaded = true;
+            console.log('amountLoaded:', this.amountLoaded);
+            this.cdRef.detectChanges();
         })
 
+
+        this.setTipEventListeners()
         this.paymentRequest = {
             apiVersion: 2,
             apiVersionMinor: 0,
@@ -92,22 +99,34 @@ export class StartComponent implements OnInit {
         };
     }
 
+    private setSplittedAmountIfNeeded() {
+        if (this.amount.shouldSplit && this.amount.splitBy != 0) {
+            let dividedAmount = (parseFloat(this.amount.amount) / this.amount.splitBy).toFixed(2)
+            this.formGroup.get('amountForm').setValue(dividedAmount);
+        }
+    }
+
     private setTipEventListeners() {
         const tenPercentTip = document.getElementById('tenPercentTip');
-        tenPercentTip.addEventListener('focusout', (event) => {
-            this.totalAmountWithTip = this.formGroup.get('amountForm').value.toFixed(2).toString()
-        });
+        if (tenPercentTip) {
+            tenPercentTip.addEventListener('focusout', (event) => {
+                this.totalAmountWithTip = this.formGroup.get('amountForm').value.toFixed(2).toString();
+            });
+        }
 
         const fifteenPercentTip = document.getElementById('fifteenPercentTip');
-        fifteenPercentTip.addEventListener('focusout', (event) => {
-            this.totalAmountWithTip = this.formGroup.get('amountForm').value.toFixed(2).toString()
-        });
+        if (fifteenPercentTip) {
+            fifteenPercentTip.addEventListener('focusout', (event) => {
+                this.totalAmountWithTip = this.formGroup.get('amountForm').value.toFixed(2).toString();
+            });
+        }
 
         const twentyPercentTip = document.getElementById('twentyPercentTip');
-        twentyPercentTip.addEventListener('focusout', (event) => {
-            this.totalAmountWithTip = this.formGroup.get('amountForm').value.toFixed(2).toString()
-        });
-
+        if (twentyPercentTip) {
+            twentyPercentTip.addEventListener('focusout', (event) => {
+                this.totalAmountWithTip = this.formGroup.get('amountForm').value.toFixed(2).toString();
+            });
+        }
     }
 
     onPay(paymentMethod: string) {
@@ -222,6 +241,14 @@ export class StartComponent implements OnInit {
     selectedOption: string;
 
     selectedOnce = false;
+
+    onSkip() {
+        this.firebaseService.setShouldSplitFalse(this.paymentroom)
+    }
+
+    onSubmit() {
+        this.firebaseService.setNumberOfGuestsToBeSplitted(this.paymentroom, this.numOfGuests)
+    }
 
 
 }

@@ -1,22 +1,41 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from "@angular/fire/compat/firestore";
+import {Injectable} from '@angular/core';
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
 import {Router} from "@angular/router";
+import {tap} from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class FirebaseService {
     // amount: Observable<Amount>
 
     constructor(
         public afs: AngularFirestore,
-        private router: Router) { }
+        private router: Router) {
+    }
+
+    setShouldSplitFalse(paymentroom: string) {
+        this.afs
+            .collection("paymentrooms")
+            .doc(paymentroom)
+            .update({shouldSplit: false})
+    }
+
+    setNumberOfGuestsToBeSplitted(paymentroom: string, numberOfGuests: number) {
+        this.afs
+            .collection("paymentrooms")
+            .doc(paymentroom)
+            .update({
+                shouldSplit: true,
+                splitBy: numberOfGuests
+            })
+    }
 
     getAmount(paymentroom: string) {
-          return this.afs
-              .collection('paymentrooms')
-              .doc(paymentroom)
-              .valueChanges();
+        return this.afs
+            .collection('paymentrooms')
+            .doc(paymentroom)
+            .valueChanges();
     }
 
     getGuest(paymentroom: string, guestId: string) {
@@ -51,7 +70,7 @@ export class FirebaseService {
             })
     }
 
-    saveGuestToPayOnTerminalAndRedirect(paymentroom: string, guestName:string, guestAmount: string, guestCurrency: string, guestTip: string, paymentMethod: string) {
+    saveGuestToPayOnTerminalAndRedirect(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string, guestTip: string, paymentMethod: string) {
         this.afs
             .collection('paymentrooms')
             .doc(paymentroom)

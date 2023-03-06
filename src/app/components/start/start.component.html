@@ -1,108 +1,128 @@
-<!DOCTYPE html>
-<html>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<body>
-<div id="main-content" class="container" align="center">
+<!--<div *ngIf="amountLoaded; then paymentSuccessful else waitingForPayment"></div>-->
+<div *ngIf="amountLoaded">
+    <div *ngIf="amount.shouldSplit && amount.splitBy == 0; then showSplitPossibility else waitingForPayment"></div>
+<!-- TODO add when receipt is closed - show finish screen -->
+    <ng-template #showSplitPossibility>
+        <div class="split-receipt-container">
+            <form class="form2">
+                <label class="label2" for="number-input">Please enter number of guests to split receipt</label>
+                <input class="input2" type="number" id="number-input" name="number-input" placeholder="0"
+                       [(ngModel)]="numOfGuests" max="15">
 
-    <div class="wrapper">
-        <p></p>
-        <div class="form-group">
-            <h3 id="total_amount" style="color: #305468">Total
-                amount: {{ amount.amount }} {{ amount.currencyName }}</h3>
-            <h5 id="left_to_pay" style="color: #305468">Left to
-                pay: {{ amount.leftToPay }} {{ amount.currencyName }}</h5>
+                <div class="split-receipt-button-container">
+                    <button class="button3" (click)="onSkip()">Skip</button>
+                    <button class="button3" (click)="onSubmit()">Submit</button>
+                </div>
+            </form>
         </div>
-        <form [formGroup]="formGroup">
-            <mat-form-field style="width: 100%;">
-                <input matInput placeholder="Name" formControlName="nameForm">
-                <mat-hint align="start">Please enter your name</mat-hint>
-                <mat-error *ngIf="nameForm.invalid && nameForm.touched">
-                    Name cannot be empty
-                </mat-error>
-            </mat-form-field>
-            <br>
-            <mat-form-field style="width: 100%;">
-                <input type="number" step=".01" matInput placeholder="Amount" formControlName="amountForm">
-                <mat-hint align="start">Please enter amount (example: 21, 35.99)</mat-hint>
-                <mat-error *ngIf="amountForm.invalid && amountForm.touched">
-                    Wrong amount or exceeded maximum amount
-                </mat-error>
-            </mat-form-field>
-        </form>
+    </ng-template>
 
-        <h4>Tip:</h4>
-        <div class="radio-container">
+    <ng-template #waitingForPayment>
+        <div class="container" align="center">
 
-            <input type="radio" id="tenPercentTip" name="radios" value="tenPercentTip"
-                   [(ngModel)]="selectedOption"
-                   [disabled]="disableRadioButtons"
-                   (click)="setAmountWithTip(tenPercentTip)">
-            <label for="tenPercentTip">{{ tenPercentTip }} {{ amount.currencyName }}</label>
+            <div class="wrapper">
+                <p></p>
+                <div class="form-group">
+                    <h3 id="total_amount" style="color: #305468">Total
+                        amount: {{ amount.amount }} {{ amount.currencyName }}</h3>
+                    <h5 id="left_to_pay" style="color: #305468">Left to
+                        pay: {{ amount.leftToPay }} {{ amount.currencyName }}</h5>
+                </div>
+                <form [formGroup]="formGroup">
+                    <mat-form-field style="width: 100%;">
+                        <input matInput placeholder="Name" formControlName="nameForm">
+                        <mat-hint align="start">Please enter your name</mat-hint>
+                        <mat-error *ngIf="nameForm.invalid && nameForm.touched">
+                            Name cannot be empty
+                        </mat-error>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field style="width: 100%;">
+                        <input type="number" step=".01" matInput placeholder="Amount" formControlName="amountForm">
+                        <mat-hint align="start">Please enter amount (example: 21, 35.99)</mat-hint>
+                        <mat-error *ngIf="amountForm.invalid && amountForm.touched">
+                            Wrong amount or exceeded maximum amount
+                        </mat-error>
+                    </mat-form-field>
+                </form>
 
-            <input type="radio" id="fifteenPercentTip" name="radios" value="fifteenPercentTip"
-                   [(ngModel)]="selectedOption"
-                   [disabled]="disableRadioButtons"
-                   (click)="setAmountWithTip(fifteenPercentTip)">
-            <label for="fifteenPercentTip">{{ fifteenPercentTip }} {{ amount.currencyName }}</label>
+                <h4>Tip:</h4>
+                <div class="radio-container">
 
-            <input type="radio" id="twentyPercentTip" name="radios" value="twentyPercentTip"
-                   [(ngModel)]="selectedOption"
-                   [disabled]="disableRadioButtons"
-                   (click)="setAmountWithTip(twentyPercentTip)">
-            <label for="twentyPercentTip">{{ twentyPercentTip }} {{ amount.currencyName }}</label>
-        </div>
+                    <input type="radio" id="tenPercentTip" name="radios" value="tenPercentTip"
+                           [(ngModel)]="selectedOption"
+                           [disabled]="disableRadioButtons"
+                           (click)="setAmountWithTip(tenPercentTip)">
+                    <label for="tenPercentTip">{{ tenPercentTip }} {{ amount.currencyName }}</label>
 
-        <div id="youPay">
-            <h3>You pay: {{ totalAmountWithTip }} {{ amount.currencyName }} </h3>
-        </div>
+                    <input type="radio" id="fifteenPercentTip" name="radios" value="fifteenPercentTip"
+                           [(ngModel)]="selectedOption"
+                           [disabled]="disableRadioButtons"
+                           (click)="setAmountWithTip(fifteenPercentTip)">
+                    <label for="fifteenPercentTip">{{ fifteenPercentTip }} {{ amount.currencyName }}</label>
 
-        <br>
+                    <input type="radio" id="twentyPercentTip" name="radios" value="twentyPercentTip"
+                           [(ngModel)]="selectedOption"
+                           [disabled]="disableRadioButtons"
+                           (click)="setAmountWithTip(twentyPercentTip)">
+                    <label for="twentyPercentTip">{{ twentyPercentTip }} {{ amount.currencyName }}</label>
+                </div>
 
-        <div class="payment-method-container">
+                <div id="youPay">
+                    <h3>You pay: {{ totalAmountWithTip }} {{ amount.currencyName }} </h3>
+                </div>
 
-            <div>
-                <button id="blik" type="submit" class="btn-image btn btnBlik"
-                        [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay('BLIK')">
-                    <img style="width: 100px; margin-left: auto; margin-right: auto; display: block;"
-                         src="/assets/images/blik_logo.svg" alt="image">
+                <br>
+
+                <div class="payment-method-container">
+
+                    <div>
+                        <button id="blik" type="submit" class="btn-image btn btnBlik"
+                                [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay('BLIK')">
+                            <img style="width: 100px; margin-left: auto; margin-right: auto; display: block;"
+                                 src="/assets/images/blik_logo.svg" alt="image">
+                        </button>
+                    </div>
+                    <div *ngIf="isAndroid">
+                        <!--                <button id="googlepay" type="submit" class="btn-image btn"-->
+                        <!--                        [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay('GOOGLE_PAY')">-->
+                        <!--                    <img style="width: 100px; margin-left: auto; margin-right: auto; display: block;"-->
+                        <!--                         src="/assets/images/google_pay_logo.svg" alt="image">-->
+                        <!--                </button>-->
+                        <google-pay-button
+                            [environment]="'TEST'"
+                            [paymentRequest]="paymentRequest"
+                            [buttonType]="'plain'"
+                            [buttonSizeMode]="'fill'"
+                            [class]="'custom-google-pay-button'"
+                            (loadpaymentdata)="onPay('GOOGLE_PAY')"
+                        ></google-pay-button>
+                        <!--                [disabled]="amountForm.invalid || nameForm.invalid"-->
+                    </div>
+                    <div *ngIf="!isAndroid">
+                        <button id="applepay" type="submit" class="btn-image btn btnApple"
+                                [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay('APPLE_PAY')">
+                            <img style="width: 100px; margin-left: auto; margin-right: auto; display: block;"
+                                 src="/assets/images/apple_pay_logo.svg" alt="image">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="text-divider">OR</div>
+
+                <button id="payOnTerminal" type="submit" class="btn2" [disabled]="amountForm.invalid"
+                        (click)="onPayOnTerminal('CARD_ON_TERMINAL')">
+                    Pay by card on terminal
+                </button>
+                <button id="payInCash" type="submit" class="btn2" [disabled]="amountForm.invalid"
+                        (click)="onPayOnTerminal('CASH')">
+                    Cash
                 </button>
             </div>
-            <div *ngIf="isAndroid">
-<!--                <button id="googlepay" type="submit" class="btn-image btn"-->
-<!--                        [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay('GOOGLE_PAY')">-->
-<!--                    <img style="width: 100px; margin-left: auto; margin-right: auto; display: block;"-->
-<!--                         src="/assets/images/google_pay_logo.svg" alt="image">-->
-<!--                </button>-->
-                <google-pay-button
-                    [environment]="'TEST'"
-                    [paymentRequest]="paymentRequest"
-                    [buttonType]="'plain'"
-                    [buttonSizeMode]="'fill'"
-                    [class]="'custom-google-pay-button'"
-                    (loadpaymentdata)="onPay('GOOGLE_PAY')"
-                ></google-pay-button>
-<!--                [disabled]="amountForm.invalid || nameForm.invalid"-->
-            </div>
-            <div *ngIf="!isAndroid">
-                <button id="applepay" type="submit" class="btn-image btn btnApple"
-                        [disabled]="amountForm.invalid || nameForm.invalid" (click)="onPay('APPLE_PAY')">
-                    <img style="width: 100px; margin-left: auto; margin-right: auto; display: block;"
-                         src="/assets/images/apple_pay_logo.svg" alt="image">
-                </button>
-            </div>
         </div>
-
-        <div class="text-divider">OR</div>
-
-        <button id="payOnTerminal" type="submit" class="btn2" [disabled]="amountForm.invalid"
-                (click)="onPayOnTerminal('CARD_ON_TERMINAL')">
-            Pay by card on terminal
-        </button>
-        <button id="payInCash" type="submit" class="btn2" [disabled]="amountForm.invalid"
-                (click)="onPayOnTerminal('CASH')">
-            Cash
-        </button>
-    </div>
+    </ng-template>
 </div>
-</body>
-</html>
+
+<div *ngIf="!amountLoaded" class="loading-container">
+    <button class="loader"></button>
+</div>
