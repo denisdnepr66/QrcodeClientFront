@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {Router} from "@angular/router";
-import {tap} from "rxjs";
+import firebase from 'firebase/compat/app';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FirebaseService {
-    // amount: Observable<Amount>
 
     constructor(
         public afs: AngularFirestore,
@@ -66,8 +65,9 @@ export class FirebaseService {
                 currency: guestCurrency,
                 guestTip: guestTip,
                 accepted: true,
-                paymentMethod: paymentMethod
-            })
+                paymentMethod: paymentMethod,
+                transactionDateTime: firebase.firestore.Timestamp.now()
+            });
     }
 
     saveGuestToPayOnTerminalAndRedirect(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string, guestTip: string, paymentMethod: string) {
