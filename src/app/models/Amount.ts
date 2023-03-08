@@ -1,3 +1,6 @@
+import firebase from "firebase/compat";
+import Timestamp = firebase.firestore.Timestamp;
+
 export class Amount {
     amount?:string = "0.00";
     currencyName?:string = "0.00";
@@ -7,5 +10,6 @@ export class Amount {
     totalTip?:string = "0.00";
     splitBy?:number = 0;
     shouldSplit?:boolean = false;
-    blockedAmount?:string="0.00"
+    blockedAmount?:string="0.00";
+    receiptClosedTimestamp?:Timestamp
 }

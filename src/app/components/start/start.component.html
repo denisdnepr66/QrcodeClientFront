@@ -3,7 +3,7 @@
     <div *ngIf="amount.shouldSplit && amount.splitBy == 0; then showSplitPossibility else waitingForPayment"></div>
 <!-- TODO add when receipt is closed - show finish screen -->
     <ng-template #showSplitPossibility>
-        <div class="split-receipt-container">
+        <div [@fadeInAnimation] class="split-receipt-container">
             <form class="form2">
                 <label class="label2" for="number-input">Please enter number of guests to split receipt</label>
                 <input class="input2" type="number" id="number-input" name="number-input" placeholder="0"
@@ -18,7 +18,7 @@
     </ng-template>
 
     <ng-template #waitingForPayment>
-        <div class="container" align="center">
+        <div [@fadeInAnimation] class="container" align="center">
 
             <div class="wrapper">
                 <p></p>

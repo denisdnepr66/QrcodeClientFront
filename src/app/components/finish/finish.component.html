@@ -1,8 +1,6 @@
 <br>
 <br>
-
-<div>
-
+<div [@fadeInAnimation] *ngIf="amountLoaded && guestsLoaded">
     <div class="success-checkmark">
         <div class="check-icon">
             <span class="icon-line line-tip"></span>
@@ -46,10 +44,17 @@
     </div>
 
     <div id="main-content" class="container" align="center">
-        <button id="payOnTerminal" style="text-align: center;" type="submit" class="btn2" (click)="onPayAgain()">Pay again</button>
+        <button id="payOnTerminal" style="text-align: center;" type="submit" class="btn2" (click)="onPayAgain()">Pay
+            again
+        </button>
     </div>
     <br>
     <br>
     <!--<button id="payOnTerminal" style="text-align: center; " type="submit" class="btn2" [disabled]="amountForm.invalid" (click)="onPayOnTerminal()">Pay by card on terminal</button>-->
 
 </div>
+
+<div *ngIf="!amountLoaded && !guestsLoaded" class="loading-container">
+    <button class="loader"></button>
+</div>
+

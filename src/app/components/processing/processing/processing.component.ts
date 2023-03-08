@@ -6,11 +6,13 @@ import {Amount} from "../../../models/Amount";
 import {MatDialog} from '@angular/material/dialog';
 import {Observable} from "rxjs";
 import {ConfirmationDialogComponent} from "../../confirmationdialog/confirmation-dialog/confirmation-dialog.component";
+import {fadeInAnimation} from "../../../animations";
 
 @Component({
     selector: 'app-processing',
     templateUrl: './processing.component.html',
-    styleUrls: ['./processing.component.css']
+    styleUrls: ['./processing.component.css'],
+    animations: [fadeInAnimation]
 })
 export class ProcessingComponent implements OnInit {
 

@@ -219,26 +219,6 @@ p {
     clear: both;
 }
 
-.btn2 {
-    background: #305468;
-    width: 90%;
-    height: 50px;
-    margin-top: 30px;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    outline: none;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.btn-box {
-    text-align: center;
-    margin: 50px 0;
-}
-
 .loader {
     width: 100px;
     height: 100px;

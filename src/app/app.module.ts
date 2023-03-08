@@ -20,6 +20,7 @@ import { GooglePayButtonModule } from '@google-pay/button-angular';
 import { ProcessingComponent } from './components/processing/processing/processing.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './components/confirmationdialog/confirmation-dialog/confirmation-dialog.component';
+import { TransactionClosedComponent } from './components/transactionclosed/transaction-closed.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ConfirmationDialogComponent } from './components/confirmationdialog/con
     StartComponent,
     FinishComponent,
     ProcessingComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    TransactionClosedComponent
   ],
     imports: [
         BrowserModule,

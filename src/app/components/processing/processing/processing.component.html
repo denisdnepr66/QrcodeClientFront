@@ -1,7 +1,7 @@
 <div *ngIf="guest.accepted; then paymentSuccessful else waitingForPayment"></div>
 
 <ng-template #waitingForPayment>
-    <div class="container">
+    <div [@fadeInAnimation] class="container">
         <div>
             <button class="loader"></button>
         </div>
@@ -15,7 +15,7 @@
 </ng-template>
 
 <ng-template #paymentSuccessful>
-    <div class="container">
+    <div [@fadeInAnimation] class="container">
         <h4>Payment successful</h4>
     </div>
 </ng-template>

@@ -4,11 +4,13 @@ import {Amount} from "../../models/Amount";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Guest} from "../../models/Guest";
+import {fadeInAnimation} from "../../animations";
 
 @Component({
     selector: 'app-start',
     templateUrl: './start.component.html',
-    styleUrls: ['./start.component.css']
+    styleUrls: ['./start.component.css'],
+    animations: [fadeInAnimation]
 })
 export class StartComponent implements OnInit {
 
@@ -55,18 +57,23 @@ export class StartComponent implements OnInit {
         })
         this.firebaseService.getAmount(this.paymentroom).subscribe(amount => {
             this.amount = amount
-            let maxAmount = parseFloat(this.amount.leftToPay) - parseFloat(this.amount.blockedAmount)
 
-            this.formGroup.get('amountForm').valueChanges.subscribe(amount => {
-                if (amount > maxAmount) {
-                    this.formGroup.get('amountForm').setValue(maxAmount.toFixed(2));
-                }
-            });
+            if (this.amount.receiptClosedTimestamp != null) {
+                this.router.navigateByUrl('/transactionclosed/' + this.paymentroom)
+            } else {
+                let maxAmount = parseFloat(this.amount.leftToPay) - parseFloat(this.amount.blockedAmount)
 
-            this.setSplittedAmountIfNeeded()
-            this.amountLoaded = true;
-            console.log('amountLoaded:', this.amountLoaded);
-            this.cdRef.detectChanges();
+                this.formGroup.get('amountForm').valueChanges.subscribe(amount => {
+                    if (amount > maxAmount) {
+                        this.formGroup.get('amountForm').setValue(maxAmount.toFixed(2));
+                    }
+                });
+
+                this.setSplittedAmountIfNeeded()
+                this.amountLoaded = true;
+                console.log('amountLoaded:', this.amountLoaded);
+                this.cdRef.detectChanges();
+            }
         })
 
 
