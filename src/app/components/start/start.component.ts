@@ -44,20 +44,18 @@ export class StartComponent implements OnInit {
 
     ngOnInit() {
         this.paymentroom = this.route.snapshot.paramMap.get('paymentroom');
+        this.formGroup = this.fb.group({
+            nameForm: ['', [
+                Validators.required
+            ]],
+            amountForm: ['', [
+                Validators.required,
+                Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$')
+            ]]
+        })
         this.firebaseService.getAmount(this.paymentroom).subscribe(amount => {
             this.amount = amount
             let maxAmount = parseFloat(this.amount.leftToPay)
-
-            this.formGroup = this.fb.group({
-                nameForm: ['', [
-                    Validators.required
-                ]],
-                amountForm: ['', [
-                    Validators.required,
-                    Validators.pattern('^\\s*(?=.*[1-9])\\d*(?:\\.\\d{1,2})?\\s*$'),
-                    Validators.max(parseFloat(maxAmount.toString()))
-                ]]
-            })
 
             this.formGroup.get('amountForm').valueChanges.subscribe(amount => {
                 if (amount > maxAmount) {
