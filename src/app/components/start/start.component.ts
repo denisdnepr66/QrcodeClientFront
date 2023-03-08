@@ -55,7 +55,7 @@ export class StartComponent implements OnInit {
         })
         this.firebaseService.getAmount(this.paymentroom).subscribe(amount => {
             this.amount = amount
-            let maxAmount = parseFloat(this.amount.leftToPay)
+            let maxAmount = parseFloat(this.amount.leftToPay) - parseFloat(this.amount.blockedAmount)
 
             this.formGroup.get('amountForm').valueChanges.subscribe(amount => {
                 if (amount > maxAmount) {
@@ -230,7 +230,7 @@ export class StartComponent implements OnInit {
         }
         let guestCurrency = this.amount.currencyName.toString()
         let guestTip = this.chosenTipAmount
-        this.firebaseService.saveGuestToPayOnTerminalAndRedirect(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip, paymentMethod)
+        this.firebaseService.saveGuestToPayOnTerminalAndRedirect(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip, paymentMethod, this.amount.blockedAmount)
     }
 
     get nameForm() {

@@ -69,7 +69,7 @@ export class ProcessingComponent implements OnInit {
 
         this.confirmDialog().subscribe(result => {
             if (result) {
-                this.firebaseService.deleteGuest(this.paymentroom, this.guestId)
+                this.firebaseService.deleteGuest(this.paymentroom, this.guestId, this.amount.blockedAmount, this.guest.amount)
                 this.router.navigateByUrl('/start/' + this.paymentroom)
             }
         });

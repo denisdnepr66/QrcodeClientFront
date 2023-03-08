@@ -7,4 +7,5 @@ export class Amount {
     totalTip?:string = "0.00";
     splitBy?:number = 0;
     shouldSplit?:boolean = false;
+    blockedAmount?:string="0.00"
 }

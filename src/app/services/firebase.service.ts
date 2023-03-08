@@ -70,7 +70,11 @@ export class FirebaseService {
             });
     }
 
-    saveGuestToPayOnTerminalAndRedirect(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string, guestTip: string, paymentMethod: string) {
+    saveGuestToPayOnTerminalAndRedirect(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string, guestTip: string, paymentMethod: string, blockedAmount: string) {
+        const ga = parseFloat(guestAmount);
+        const ba = parseFloat(blockedAmount);
+
+        const newBlockedAmount = (ga + ba).toFixed(2);
         this.afs
             .collection('paymentrooms')
             .doc(paymentroom)
@@ -84,7 +88,13 @@ export class FirebaseService {
                 paymentMethod: paymentMethod
             })
             .then(docRef => {
-                    this.router.navigateByUrl('/processing/' + paymentroom + '/' + docRef.id)
+                    this.afs
+                        .collection('paymentrooms')
+                        .doc(paymentroom)
+                        .update({
+                            blockedAmount: newBlockedAmount
+                        }).then(() => this.router.navigateByUrl('/processing/' + paymentroom + '/' + docRef.id)
+                    )
                 }
             )
     }
@@ -99,7 +109,11 @@ export class FirebaseService {
             })
     }
 
-    deleteGuest(paymentroom: string, documentId: string): void {
+    deleteGuest(paymentroom: string, documentId: string, blockedAmount: string, guestAmount: string): void {
+        const ga = parseFloat(blockedAmount);
+        const ba = parseFloat(guestAmount);
+
+        const newBlockedAmount = (ga - ba).toFixed(2);
         this.afs
             .collection('paymentrooms')
             .doc(paymentroom)
@@ -107,7 +121,12 @@ export class FirebaseService {
             .doc(documentId)
             .delete()
             .then(() => {
-                console.log('Document successfully deleted!');
+                this.afs
+                    .collection('paymentrooms')
+                    .doc(paymentroom)
+                    .update({
+                        blockedAmount: newBlockedAmount
+                    })
             })
             .catch((error) => {
                 console.error('Error deleting document: ', error);
