@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FirebaseService} from "../../services/firebase.service";
 import {Amount} from "../../models/Amount";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -6,9 +6,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Guest} from "../../models/Guest";
 
 @Component({
-  selector: 'app-start',
-  templateUrl: './start.component.html',
-  styleUrls: ['./start.component.css']
+    selector: 'app-start',
+    templateUrl: './start.component.html',
+    styleUrls: ['./start.component.css']
 })
 export class StartComponent implements OnInit {
 
@@ -32,7 +32,7 @@ export class StartComponent implements OnInit {
 
     amountLoaded: boolean = false
 
-    numOfGuests:number
+    numOfGuests: number
 
     constructor(
         private firebaseService: FirebaseService,
@@ -46,7 +46,7 @@ export class StartComponent implements OnInit {
         this.paymentroom = this.route.snapshot.paramMap.get('paymentroom');
         this.firebaseService.getAmount(this.paymentroom).subscribe(amount => {
             this.amount = amount
-            let maxAmount = parseFloat(this.amount.leftToPay) + 0.01
+            let maxAmount = parseFloat(this.amount.leftToPay)
 
             this.formGroup = this.fb.group({
                 nameForm: ['', [
@@ -58,6 +58,13 @@ export class StartComponent implements OnInit {
                     Validators.max(parseFloat(maxAmount.toString()))
                 ]]
             })
+
+            this.formGroup.get('amountForm').valueChanges.subscribe(amount => {
+                if (amount > maxAmount) {
+                    this.formGroup.get('amountForm').setValue(maxAmount.toFixed(2));
+                }
+            });
+
             this.setSplittedAmountIfNeeded()
             this.amountLoaded = true;
             console.log('amountLoaded:', this.amountLoaded);
@@ -98,6 +105,38 @@ export class StartComponent implements OnInit {
             }
         };
     }
+
+    /*
+        TODO try to finish it. Right now these functions are from ios and android. For ios it replaces ',' with '.' and
+         doesn't allow user to enter two dots and doesn't allow to enter more than two digits after dot.
+         Same for android. Android uses numeric input, ios uses tel input. The only problem right now is that tips are not updated correctly
+
+    */
+    // onAmountInputIOS(event: any) {
+    //     const input = event.target as HTMLInputElement;
+    //     let value = input.value.replace(/[^0-9\.]/g, '');
+    //     const parts = value.split('.');
+    //     if (parts.length > 2) {
+    //         value = parts[0] + '.' + parts.slice(1).join('');
+    //     }
+    //     if (parts.length > 1 && parts[1].length > 2) {
+    //         value = parts[0] + '.' + parts[1].substring(0, 2);
+    //     }
+    //     this.formGroup.get('amountForm').setValue(value, {emitEvent: false});
+    // }
+    //
+    // onAmountInputAndroid(event: any) {
+    //     const input = event.target as HTMLInputElement;
+    //     let value = input.value.replace(/[^0-9\.]/g, '');
+    //     const parts = value.split('.');
+    //     if (parts.length > 2) {
+    //         value = parts[0] + '.' + parts.slice(1).join('');
+    //     }
+    //     if (parts.length > 1 && parts[1].length > 2) {
+    //         value = parts[0] + '.' + parts[1].substring(0, 2);
+    //         this.formGroup.get('amountForm').setValue(value, {emitEvent: false});
+    //     }
+    // }
 
     private setSplittedAmountIfNeeded() {
         if (this.amount.shouldSplit && this.amount.splitBy != 0) {
@@ -209,15 +248,17 @@ export class StartComponent implements OnInit {
             this.chosenTipAmount = "0.00"
             this.totalAmountWithTip = "0.00"
         } else {
+            let currentAmountFormValue = parseFloat(this.formGroup.get('amountForm').value)
+
             this.paymentRequest.transactionInfo.totalPrice = this.totalAmountWithTip;
-            this.tenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 10).toFixed(2).toString()
-            this.fifteenPercentTip = (parseFloat(this.formGroup.get('amountForm').value) * 15 / 100).toFixed(2).toString()
-            this.twentyPercentTip = (parseFloat(this.formGroup.get('amountForm').value) / 5).toFixed(2).toString()
+            this.tenPercentTip = (currentAmountFormValue / 10).toFixed(2).toString()
+            this.fifteenPercentTip = (currentAmountFormValue * 15 / 100).toFixed(2).toString()
+            this.twentyPercentTip = (currentAmountFormValue / 5).toFixed(2).toString()
 
             if (this.selectedOption == "undefined") {
-                this.totalAmountWithTip = parseFloat(this.formGroup.get('amountForm').value).toFixed(2).toString()
+                this.totalAmountWithTip = currentAmountFormValue.toFixed(2).toString()
             } else {
-                this.totalAmountWithTip = (parseFloat(this.formGroup.get('amountForm').value) + parseFloat(this.chosenTipAmount))
+                this.totalAmountWithTip = (currentAmountFormValue + parseFloat(this.chosenTipAmount))
                     .toFixed(2).toString()
             }
         }
