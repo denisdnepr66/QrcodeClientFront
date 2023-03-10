@@ -2,12 +2,12 @@
 export const environment = {
   production: false,
   firebase: {
-    projectId: 'novelpay-qr-demo',
-    appId: '1:770543068786:web:5f6eca5a8792283cb9c4eb',
-    storageBucket: 'novelpay-qr-demo.appspot.com',
-    apiKey: 'AIzaSyAp1ZLJbjrjkItVStJI8Q_ZinFy1x44wKM',
-    authDomain: 'novelpay-qr-demo.firebaseapp.com',
-    messagingSenderId: '770543068786',
-    measurementId: 'G-2N6BRYNXDE',
+    projectId: 'novelpay-qr-demo-v2',
+    appId: '1:24003609205:web:5bac23d7d468db2a67ee3c',
+    storageBucket: 'novelpay-qr-demo-v2.appspot.com',
+    apiKey: 'AIzaSyCl_X4GjUSHjsG-FFoYxjqQj4JKgbKcKVI',
+    authDomain: 'novelpay-qr-demo-v2.firebaseapp.com',
+    messagingSenderId: '24003609205',
+    measurementId: 'G-MTKJPPR0LX',
   }
 }

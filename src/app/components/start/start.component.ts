@@ -237,7 +237,7 @@ export class StartComponent implements OnInit {
         }
         let guestCurrency = this.amount.currencyName.toString()
         let guestTip = this.chosenTipAmount
-        this.firebaseService.saveGuestToPayOnTerminalAndRedirect(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip, paymentMethod, this.amount.blockedAmount)
+        this.firebaseService.saveGuestToPayOnTerminalAndRedirect(this.paymentroom, guestName, guestAmount, guestCurrency, guestTip, paymentMethod)
     }
 
     get nameForm() {

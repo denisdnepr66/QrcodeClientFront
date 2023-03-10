@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/qrcode-client-front",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -100,8 +100,8 @@
             "prerender": false,
             "ssr": false,
             "browserTarget": "QrcodeClientFront:build:production",
-            "firebaseProject": "novelpay-qr-demo",
-            "firebaseHostingSite": "qrcode-novelpay-pl"
+            "firebaseProject": "novelpay-qr-demo-v2",
+            "firebaseHostingSite": "novelpay-qr-demo-v2"
           }
         }
       }

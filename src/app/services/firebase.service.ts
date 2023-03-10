@@ -14,20 +14,43 @@ export class FirebaseService {
     }
 
     setShouldSplitFalse(paymentroom: string) {
-        this.afs
-            .collection("paymentrooms")
-            .doc(paymentroom)
-            .update({shouldSplit: false})
+        const paymentRoomRef = this.afs.collection("paymentrooms").doc(paymentroom).ref;
+
+        this.afs.firestore.runTransaction(async (transaction) => {
+            const paymentRoomDoc = await transaction.get(paymentRoomRef);
+
+            if (!paymentRoomDoc.exists) {
+                throw new Error("Payment Room does not exist!");
+            }
+
+            const newShouldSplit = false;
+
+            transaction.update(paymentRoomRef, { shouldSplit: newShouldSplit });
+
+            return newShouldSplit;
+        }).then((newShouldSplit) => {
+            console.log(`Transaction successfully committed. New shouldSplit value: ${newShouldSplit}`);
+        }).catch((error) => {
+            console.error(`Transaction failed: ${error}`);
+        });
+
+
     }
 
     setNumberOfGuestsToBeSplitted(paymentroom: string, numberOfGuests: number) {
-        this.afs
-            .collection("paymentrooms")
-            .doc(paymentroom)
-            .update({
-                shouldSplit: true,
-                splitBy: numberOfGuests
-            })
+        this.afs.firestore.runTransaction(transaction => {
+            const paymentroomRef = this.afs.collection('paymentrooms').doc(paymentroom).ref;
+            return transaction.get(paymentroomRef).then(doc => {
+                if (!doc.exists) {
+                    throw "Document does not exist!";
+                }
+
+                const shouldSplit = true;
+                const splitBy = numberOfGuests;
+                transaction.update(paymentroomRef, { shouldSplit, splitBy });
+            });
+        });
+
     }
 
     getAmount(paymentroom: string) {
@@ -70,11 +93,7 @@ export class FirebaseService {
             });
     }
 
-    saveGuestToPayOnTerminalAndRedirect(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string, guestTip: string, paymentMethod: string, blockedAmount: string) {
-        const ga = parseFloat(guestAmount);
-        const ba = parseFloat(blockedAmount);
-
-        const newBlockedAmount = (ga + ba).toFixed(2);
+    saveGuestToPayOnTerminalAndRedirect(paymentroom: string, guestName: string, guestAmount: string, guestCurrency: string, guestTip: string, paymentMethod: string) {
         this.afs
             .collection('paymentrooms')
             .doc(paymentroom)
@@ -88,25 +107,59 @@ export class FirebaseService {
                 paymentMethod: paymentMethod
             })
             .then(docRef => {
-                    this.afs
-                        .collection('paymentrooms')
-                        .doc(paymentroom)
-                        .update({
-                            blockedAmount: newBlockedAmount
-                        }).then(() => this.router.navigateByUrl('/processing/' + paymentroom + '/' + docRef.id)
-                    )
+                    this.afs.firestore.runTransaction((transaction) => {
+                        const paymentroomDoc = this.afs.collection('paymentrooms').doc(paymentroom).ref;
+
+                        return transaction.get(paymentroomDoc).then((doc) => {
+                            if (!doc.exists) {
+                                throw new Error('Payment room document does not exist');
+                            }
+                            const blockedAmount1 = doc.get("blockedAmount")
+
+                            const ga = parseFloat(guestAmount);
+                            const ba = parseFloat(blockedAmount1);
+                            const newBlockedAmount = (ga + ba).toFixed(2);
+
+                            const updatedData = {
+                                blockedAmount: newBlockedAmount,
+                            };
+
+                            transaction.update(paymentroomDoc, updatedData);
+
+                            return {
+                                paymentroomDoc,
+                                docRef: this.afs.collection('paymentrooms').doc(paymentroom).collection('guests').doc(),
+                            };
+                        });
+                    }).then(() => {
+                        this.router.navigateByUrl('/processing/' + paymentroom + '/' + docRef.id)
+                    }).catch((error) => {
+                        console.error('Transaction failed: ', error);
+                    });
+
                 }
             )
     }
 
     updateLeftToPayAndTotalTip(paymentroom: string, newLeftToPayAmount: string, newTipAmount: string) {
-        this.afs
-            .collection('paymentrooms')
-            .doc(paymentroom)
-            .update({
-                leftToPay: newLeftToPayAmount,
-                totalTip: newTipAmount
-            })
+        this.afs.firestore.runTransaction(transaction => {
+            const paymentroomDoc = this.afs.collection('paymentrooms').doc(paymentroom).ref;
+
+            return transaction.get(paymentroomDoc).then(doc => {
+                if (!doc.exists) {
+                    throw new Error('Payment room document does not exist!');
+                }
+
+                transaction.update(paymentroomDoc, {
+                    leftToPay: newLeftToPayAmount,
+                    totalTip: newTipAmount
+                });
+            });
+        }).then(() => {
+            console.log('Transaction completed successfully!');
+        }).catch(error => {
+            console.error('Transaction failed: ', error);
+        });
     }
 
     deleteGuest(paymentroom: string, documentId: string, blockedAmount: string, guestAmount: string): void {

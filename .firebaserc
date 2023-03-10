@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "novelpay-qr-demo"
+    "default": "novelpay-qr-demo-v2"
   },
   "targets": {
-    "novelpay-qr-demo": {
+    "novelpay-qr-demo-v2": {
       "hosting": {
         "QrcodeClientFront": [
-          "qrcode-novelpay-pl"
+          "novelpay-qr-demo-v3"
         ]
       }
     }
